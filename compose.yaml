@@ -1,0 +1,53 @@
+services:
+
+  flask:
+    build: flask
+    deploy:
+      mode: replicated
+      replicas: 3
+    depends_on:
+      - mariadb
+    ports:
+      - "5000-5020:5000"
+    restart: always
+
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: adminer
+      MARIADB_DATABASE: mariadb
+      MYSQL_USER: adminer
+      MYSQL_PASSWORD: adminer
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - "database:/var/lib/mysql"
+
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    environment:
+      ADMINER_DEFAULT_SERVER: mariadb
+    restart: always
+    depends_on:
+      - mariadb
+    ports:
+      - "8080:8080"
+    restart: always
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    depends_on:
+      - flask
+      - mariadb
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+    restart: always
+
+volumes:
+  database:
