@@ -47,7 +47,7 @@ def post_message():
 		return f"Zerbait txarto joan da: {err}"
 	conn.commit() # commit egin
 	cur.close() #kurtsorea zarratu
-	return "Ondo egin da operazioa" # Operazioa ondo egin dela bueltatu
+	return "<h1>Ondo egin da operazioa<h1>\n" # Operazioa ondo egin dela bueltatu
 
 @app.route("/message", methods=["GET"]) # /message bilatzen bada GET eskaerarekin, behekoa egin
 def get_message():
@@ -61,7 +61,7 @@ def get_message():
 	try:
 		params = request.args # http eskaerako parametroak hartu
 	except:
-		return "<h1>Parametroak gaizki sartu dituzu</h1>\n <p>Hauek dira onartzen diren parametroak: 'eduki', 'erabiltzaile', 'ID'.</p>\n"
+		return "<h1>Parametroak gaizki sartu dituzu<h1>\n <p>Hauek dira onartzen diren parametroak: 'eduki', 'erabiltzaile', 'ID'.</p>\n"
 	# a[4]=nsin #500 errorearea agertzeko, hau deskomentatu eta localhost/message bilatu
 	admitted_params = ["eduki", "erabiltzaile", "ID"] # Onartzen diren parametroen lista
 	
